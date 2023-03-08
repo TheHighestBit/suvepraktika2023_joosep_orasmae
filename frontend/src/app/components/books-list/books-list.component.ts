@@ -16,7 +16,7 @@ export class BooksListComponent implements OnInit {
 
   books$!: Observable<Page<Book>>;
   booksDataSource = new MatTableDataSource<Book>();
-  tableColumns = ['title', 'author', 'genre']; //The columns we want our book-list table to display
+  tableColumns = ['title', 'author', 'genre', 'status']; //The columns we want our book-list table to display
   
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
