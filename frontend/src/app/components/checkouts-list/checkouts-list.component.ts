@@ -1,9 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { BookService } from '../../services/book.service';
 import { CheckoutService } from '../../services/checkout.service';
 import { Observable } from 'rxjs';
 import { Page } from '../../models/page';
-import { Book } from '../../models/book';
 import { Checkout } from '../../models/checkout';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
@@ -18,13 +16,12 @@ export class CheckoutsListComponent implements OnInit {
 
   checkouts$!: Observable<Page<Checkout>>;
   checkoutsDataSource = new MatTableDataSource<Checkout>();
-  tableColumns = ['dueDate', 'checkedOutDate', 'returnedDate']; //Columns for the checkout table
+  tableColumns = [ 'borrowedBook.title', 'borrowerLastName', 'dueDate', 'checkedOutDate', 'returnedDate']; //Columns for the checkout table
   
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   
   constructor(
-    private bookService: BookService,
     private checkoutService: CheckoutService,
   ) {
   }
@@ -38,6 +35,14 @@ export class CheckoutsListComponent implements OnInit {
   }
 
   ngAfterViewInit(): void {
+    //This fix adapted from https://stackoverflow.com/a/49057493
+    this.checkoutsDataSource.sortingDataAccessor = (item: Checkout, property: string) => {
+      switch(property) {
+        case 'borrowedBook.title': return item.borrowedBook.title;
+        default: return item[property as keyof Checkout] as string;
+      }
+    };
+    
     //Must be set after the view has been created
     this.checkoutsDataSource.sort = this.sort;
     this.checkoutsDataSource.paginator = this.paginator;
