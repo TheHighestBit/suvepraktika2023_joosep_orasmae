@@ -31,7 +31,7 @@ and let it generate the code for all of the rest -->
         </mat-form-field>
         <mat-form-field>
           <label for="status">Status</label>
-          <mat-select formControlName="status" required>
+          <mat-select formControlName="status" required (selectionChange)="onStatusChange()">
             <mat-option *ngFor="let status of statuses" [value]="status">{{status}}</mat-option>
           </mat-select>
         </mat-form-field>
@@ -47,6 +47,29 @@ and let it generate the code for all of the rest -->
         <div>
           <button mat-raised-button color="primary" (click)="saveBook()" [disabled]="bookForm.invalid">Save</button>
           <button mat-raised-button color="warn" (click)="deleteBook()">Delete</button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card *ngIf="showCheckout">
+    <mat-card-title>Checkout form</mat-card-title>
+    <mat-card-content>
+      <form [formGroup]="checkoutForm">
+        <mat-form-field>
+          <label for="borrowerFirstName">First name of borrower</label>
+          <input matInput formControlName="borrowerFirstName" required>
+        </mat-form-field>
+        <mat-form-field>
+            <label for="borrowerLastName">Last name of borrower</label>
+            <input matInput formControlName="borrowerLastName" required>
+        </mat-form-field>
+        <mat-form-field>
+            <label for="dueDate">Due date</label>
+            <input matInput formControlName="dueDate" required>
+        </mat-form-field>
+        <div>
+          <button mat-raised-button color="primary" (click)="checkoutClick()" [disabled]="checkoutForm.invalid">Checkout</button>
         </div>
       </form>
     </mat-card-content>

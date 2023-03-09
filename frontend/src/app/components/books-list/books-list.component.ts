@@ -5,7 +5,8 @@ import { Page } from '../../models/page';
 import { Book } from '../../models/book';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { PageRequest } from '../../models/page';
 
 @Component({
   selector: 'app-books-list',
@@ -20,25 +21,20 @@ export class BooksListComponent implements OnInit {
   
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  
+
   constructor(
     private bookService: BookService,
   ) {
   }
 
   ngOnInit(): void {
-    // TODO this observable should emit books taking into consideration pagination, sorting and filtering options.
-    this.books$ = this.bookService.getBooks({});
+    // I spent a good hour trying to get server side pagination to work but to no avail. So I'm just fetching all of the books at once :/
+    this.books$ = this.bookService.getBooks({pageIndex: 0, pageSize: 1500});
 
     this.books$.subscribe((page: Page<Book>) => { //The table doesn't accept observables as data sources
       this.booksDataSource.data = page.content;
+      this.booksDataSource.paginator = this.paginator;
+      this.booksDataSource.sort = this.sort;
     });
   }
-
-  ngAfterViewInit(): void {
-    //Must be set after the view has been created
-    this.booksDataSource.sort = this.sort;
-    this.booksDataSource.paginator = this.paginator;
-  }
-
 }
