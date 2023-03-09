@@ -8,6 +8,7 @@ import { FormGroup, FormControl, Validators, ValidatorFn, AbstractControl } from
 import { Location } from '@angular/common';
 import { Checkout } from 'src/app/models/checkout';
 import { CheckoutService } from 'src/app/services/checkout.service';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
 
 @Component({
   selector: 'app-book-detail',
@@ -25,7 +26,8 @@ export class BookDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private bookService: BookService,
     private location: Location,
-    private checkoutService: CheckoutService
+    private checkoutService: CheckoutService,
+    private localStorageService: LocalStorageService
   ) {
   }
 
@@ -122,6 +124,16 @@ export class BookDetailComponent implements OnInit {
       this.showCheckout = true;
     } else {
       this.showCheckout = false;
+    }
+  }
+
+  favoriteBook(): void {
+    const updatedBook = this.bookForm.value as Book;
+    if (localStorage.getItem(updatedBook.title) === null) {
+      this.localStorageService.saveData(updatedBook.title, JSON.stringify(updatedBook));
+      console.log(updatedBook);
+    } else {
+      this.localStorageService.removeData(updatedBook.title);
     }
   }
 }
