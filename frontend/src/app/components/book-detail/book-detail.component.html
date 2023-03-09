@@ -4,45 +4,46 @@ and let it generate the code for all of the rest -->
 <mat-card *ngIf="book$ | async as book">
     <mat-card-title>Book Details</mat-card-title>
     <mat-card-content>
-      <form #bookForm="ngForm">
+      <form [formGroup]="bookForm">
         <mat-form-field>
-            <label for="title">Title</label>
-          <input matInput placeholder="Title" [(ngModel)]="book.title" name="title" required>
+          <label for="title">Title</label>
+          <input matInput formControlName="title" required>
         </mat-form-field>
         <mat-form-field>
-            <label for="author">Author</label>
-          <input matInput placeholder="Author" [(ngModel)]="book.author" name="author" required>
+          <label for="author">Author</label>
+          <input matInput formControlName="author" required>
         </mat-form-field>
         <mat-form-field>
-            <label for="genre">Genre</label>
-          <input matInput placeholder="Genre" [(ngModel)]="book.genre" name="genre" required>
+          <label for="genre">Genre</label>
+          <input matInput formControlName="genre" required>
         </mat-form-field>
         <mat-form-field>
-            <label for="year">Year</label>
-          <input matInput placeholder="Year" [(ngModel)]="book.year" name="year" type="number" min="0" required>
+          <label for="year">Year</label>
+          <input matInput formControlName="year" type="number" min="0" required>
         </mat-form-field>
         <mat-form-field>
-            <label for="added">Added</label>
-          <input matInput placeholder="Added" [(ngModel)]="book.added" name="added" required>
+          <label for="added">Added</label>
+          <input matInput formControlName="added" required>
         </mat-form-field>
         <mat-form-field>
-            <label for="checkOutCount">Check Out Count</label>
-          <input matInput placeholder="Check Out Count" [(ngModel)]="book.checkOutCount" name="checkOutCount" type="number" min="0" required>
+          <label for="checkOutCount">Check Out Count</label>
+          <input matInput formControlName="checkOutCount" type="number" min="0" required>
         </mat-form-field>
         <mat-form-field>
-            <label for="status">Status</label>
-          <mat-select [(ngModel)]="book.status" name="status" required>
+          <label for="status">Status</label>
+          <mat-select formControlName="status" required>
             <mat-option *ngFor="let status of statuses" [value]="status">{{status}}</mat-option>
           </mat-select>
         </mat-form-field>
         <mat-form-field>
-            <label for="dueDate">Due Date</label>
-          <input matInput [(ngModel)]="book.dueDate" name="dueDate" required>
+          <label for="dueDate">Due Date</label>
+          <input matInput formControlName="dueDate">
         </mat-form-field>
         <mat-form-field>
-            <label for="comment">Comment</label>
-          <input matInput [(ngModel)]="book.comment" name="comment">
+          <label for="comment">Comment</label>
+          <input matInput formControlName="comment">
         </mat-form-field>
+        <input type="hidden" formControlName="id">
         <div>
           <button mat-raised-button color="primary" (click)="saveBook()" [disabled]="bookForm.invalid">Save</button>
           <button mat-raised-button color="warn" (click)="deleteBook()">Delete</button>
