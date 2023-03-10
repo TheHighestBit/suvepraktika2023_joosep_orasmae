@@ -17,6 +17,7 @@ export class CheckoutsListComponent implements OnInit {
   checkouts$!: Observable<Page<Checkout>>;
   checkoutsDataSource = new MatTableDataSource<Checkout>();
   tableColumns = [ 'borrowedBook.title', 'borrowerLastName', 'dueDate', 'checkedOutDate', 'returnedDate']; //Columns for the checkout table
+  currentDate = new Date().toISOString().slice(0, 10); //Needed to distinguish between overdue and not overdue checkouts
   
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;

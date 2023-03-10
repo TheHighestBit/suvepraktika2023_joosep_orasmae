@@ -9,6 +9,8 @@ import { Location } from '@angular/common';
 import { Checkout } from 'src/app/models/checkout';
 import { CheckoutService } from 'src/app/services/checkout.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogComponent } from '../dialog/dialog.component';
 
 @Component({
   selector: 'app-book-detail',
@@ -27,7 +29,8 @@ export class BookDetailComponent implements OnInit {
     private bookService: BookService,
     private location: Location,
     private checkoutService: CheckoutService,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    public dialog: MatDialog
   ) {
   }
 
@@ -74,14 +77,29 @@ export class BookDetailComponent implements OnInit {
   }
 
   deleteBook(): void {
-    const bookId = this.bookForm.get('id')?.value;
-
-    this.bookService.deleteBook(bookId)
-      .subscribe(() => {
-        console.log('Book deleted');
-        this.location.back();
-      });
+    //The dialog related stuff from https://material.angular.io/components/dialog/overview
+    const dialogRef = this.dialog.open(DialogComponent, {
+      data: {
+        title: 'Delete book',
+        message: 'Are you sure you want to delete \'' + this.bookForm.get('title')?.value + '\'?',
+        confirmButtonText: 'Delete',
+        cancelButtonText: 'Cancel'
+      }
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) { // If the user clicked the "Delete" button
+        const bookId = this.bookForm.get('id')?.value;
+  
+        this.bookService.deleteBook(bookId)
+          .subscribe(() => {
+            console.log('Book deleted');
+            this.location.back();
+          });
+      }
+    });
   }
+  
 
   dateFormatValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
@@ -98,23 +116,36 @@ export class BookDetailComponent implements OnInit {
 
   checkoutClick(): void{
     if (this.checkoutForm.valid && this.bookForm.valid) {
-      const checkout = this.checkoutForm.value as Checkout;
-      const book = this.bookForm.value as Book;
+      const dialogRef = this.dialog.open(DialogComponent, {
+        data: {
+          title: 'Checkout book',
+          message: 'Are you sure you want to checkout \'' + this.bookForm.get('title')?.value + '\'?',
+          confirmButtonText: 'Checkout',
+          cancelButtonText: 'Cancel'
+        }
+      });
+    
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) { // If the user clicked the "Checkout" button
+          const checkout = this.checkoutForm.value as Checkout;
+          const book = this.bookForm.value as Book;
 
-      book.status = 'BORROWED';
-      book.dueDate = checkout.dueDate;
-      book.checkOutCount++;
-      checkout.borrowedBook = book;
+          book.status = 'BORROWED';
+          book.dueDate = checkout.dueDate;
+          book.checkOutCount++;
+          checkout.borrowedBook = book;
 
-      this.bookService.saveBook(book).subscribe((book) => { //Update the book on the server side
-        console.log('Book updated:', book);
-    });
+          this.bookService.saveBook(book).subscribe((book) => { //Update the book on the server side
+            console.log('Book updated:', book);
+        });
 
-      checkout.checkedOutDate = new Date().toISOString().slice(0, 10);
+          checkout.checkedOutDate = new Date().toISOString().slice(0, 10);
 
-      this.checkoutService.checkout(checkout).subscribe((checkout) => {
-        console.log('Checkout created:', checkout);
-        this.location.back();
+          this.checkoutService.checkout(checkout).subscribe((checkout) => {
+            console.log('Checkout created:', checkout);
+            this.location.back();
+          });
+        }
       });
   }
   }

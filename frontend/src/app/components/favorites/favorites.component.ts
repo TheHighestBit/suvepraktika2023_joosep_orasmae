@@ -1,12 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { BookService } from '../../services/book.service';
-import { Observable } from 'rxjs';
-import { Page } from '../../models/page';
 import { Book } from '../../models/book';
-import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { PageRequest } from '../../models/page';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 
 @Component({
@@ -22,7 +16,7 @@ export class FavoritesComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
-    private localStorageService: LocalStorageService,
+    private localStorageService: LocalStorageService
   ) {
   }
 
@@ -34,5 +28,6 @@ export class FavoritesComponent implements OnInit {
 
   clearFavorites(): void {
     this.localStorageService.clearData();
+    this.ngOnInit(); //Refresh the table
   }
 }

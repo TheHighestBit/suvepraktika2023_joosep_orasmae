@@ -1,5 +1,16 @@
 <div class="container mat-elevation-z4">
   <mat-card>
+    <mat-form-field>
+      <mat-label>Search</mat-label>
+      <input matInput [(ngModel)]="searchValue" (keyup)="applyFilter()" placeholder="Search...">      
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Status</mat-label>
+        <mat-select [(ngModel)]="selectedStatus" (selectionChange)="applyFilter()">
+          <mat-option value="">All</mat-option>
+          <mat-option *ngFor="let status of bookStatuses" [value]="status">{{status}}</mat-option>
+        </mat-select>
+      </mat-form-field>
     <mat-card-title>Books table view</mat-card-title>
     <mat-card-content>
       <table mat-table [dataSource]="booksDataSource" matSort>
