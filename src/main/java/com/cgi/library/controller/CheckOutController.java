@@ -29,6 +29,8 @@ public class CheckOutController {
 
     @PostMapping(value = "checkout")
     public ResponseEntity<String> saveCheckOut(@RequestBody CheckOutDTO checkOutDTO) {
+        if (checkOutDTO.getId() == null)
+            checkOutDTO.setId(UUID.randomUUID());
         checkOutService.saveCheckOut(checkOutDTO);
         return ResponseEntity.ok("");
     }

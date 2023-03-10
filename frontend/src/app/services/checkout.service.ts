@@ -4,6 +4,7 @@ import { Page } from '../models/page';
 import { Checkout } from '../models/checkout';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { RestUtil } from './rest-util';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,8 @@ export class CheckoutService {
 
   getCheckouts(): Observable<Page<Checkout>> {
     const url = this.baseUrl + '/getCheckouts';
-    return this.http.get<Page<Checkout>>(url);
+    const params = RestUtil.buildParamsFromPageRequest({pageIndex: 0, pageSize: 1000}); //Hardcoded the pageSize
+    return this.http.get<Page<Checkout>>(url, {params});
   }
 
   getCheckout(checkoutId: string): Observable<Checkout> {

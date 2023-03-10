@@ -49,7 +49,7 @@ public class Book {
     @Column
     private String comment;
 
-    @OneToMany(mappedBy = "borrowedBook")
+    @OneToMany(mappedBy = "borrowedBook", cascade = CascadeType.REMOVE, orphanRemoval = true) //When deleting a book, delete all checkouts regarding that book
     private List<CheckOut> checkOuts = new ArrayList<>();
 
     public UUID getId() {

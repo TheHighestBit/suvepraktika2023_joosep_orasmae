@@ -6,6 +6,6 @@ export interface Checkout {
   borrowerLastName: string;
   borrowedBook: Book;
   checkedOutDate: string;
-  duteDate: string;
+  dueDate: string;
   returnedDate: string;
 }

@@ -105,4 +105,19 @@ public class BookDTO {
         this.comment = comment;
     }
 
+    @Override
+    public String toString() {
+        return "BookDTO{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", author='" + author + '\'' +
+                ", genre='" + genre + '\'' +
+                ", year=" + year +
+                ", added=" + added +
+                ", checkOutCount=" + checkOutCount +
+                ", status=" + status +
+                ", dueDate=" + dueDate +
+                ", comment='" + comment + '\'' +
+                '}';
+    }
 }

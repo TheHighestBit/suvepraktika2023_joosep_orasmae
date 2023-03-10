@@ -74,4 +74,17 @@ public class CheckOutDTO {
     public void setReturnedDate(LocalDate returnedDate) {
         this.returnedDate = returnedDate;
     }
+
+    @Override
+    public String toString() {
+        return "CheckOutDTO{" +
+                "id=" + id +
+                ", borrowerFirstName='" + borrowerFirstName + '\'' +
+                ", borrowerLastName='" + borrowerLastName + '\'' +
+                ", borrowedBook=" + borrowedBook +
+                ", checkedOutDate=" + checkedOutDate +
+                ", dueDate=" + dueDate +
+                ", returnedDate=" + returnedDate +
+                '}';
+    }
 }

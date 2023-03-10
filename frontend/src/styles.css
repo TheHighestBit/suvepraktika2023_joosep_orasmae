@@ -1,4 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; 
+  background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,0.2189250700280112) 100%); /* Generated with https://cssgradient.io */
+}
+
+label {
+    color: red;
+}
+
+.container {
+  margin: 2rem auto;
+  max-width: 960px;
+}
+
+button {
+  margin: 5px;
+}

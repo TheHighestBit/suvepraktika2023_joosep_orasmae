@@ -29,7 +29,10 @@ public class BookController {
 
     @PostMapping(value = "saveBook")
     public ResponseEntity<String> saveBook(@RequestBody BookDTO book) {
-        return ResponseEntity.ok(String.valueOf(bookService.saveBook(book)));
+        if (book.getId() == null)
+            book.setId(UUID.randomUUID());
+        bookService.saveBook(book);
+        return ResponseEntity.ok(""); //saveBook doesnt return valid json, hence we cant return it here;
     }
 
     @DeleteMapping(value = "deleteBook")
