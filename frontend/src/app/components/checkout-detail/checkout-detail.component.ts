@@ -51,10 +51,10 @@ export class CheckoutDetailComponent implements OnInit {
     if (this.checkoutForm.valid) {
       const updatedCheckout = this.checkoutForm.value as Checkout;
 
-      this.book.status = 'AVAILABLE'; //Update the status of the book
+      this.book.status = 'RETURNED'; //Update the status of the book
       this.bookService.saveBook(this.book)
       .subscribe(book => {
-        console.log('Book set as available:', book);
+        console.log('Book set as returned:', book);
     });
 
     updatedCheckout.borrowedBook = this.book;

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BookService } from '../../services/book.service';
 import { Book } from '../../models/book';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { map, switchMap } from 'rxjs/operators';
 import { FormGroup, FormControl, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
@@ -22,7 +22,9 @@ export class BookDetailComponent implements OnInit {
   bookForm!: FormGroup;
   checkoutForm!: FormGroup;
   statuses = ['AVAILABLE', 'BORROWED', 'RETURNED', 'DAMAGED', 'PROCESSING'];
-  showCheckout = false;
+  showCheckout = false; //The checkout form is only displayed if the book is available
+  emptyBook = false;
+  isFavorite = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -56,18 +58,32 @@ export class BookDetailComponent implements OnInit {
 
     this.book$ = this.route.params
       .pipe(map(params => params['id']))
-      .pipe(switchMap(id => this.bookService.getBook(id)));
+      .pipe(switchMap(id => { //This is a workaround for adding a new book to the system, signaled by id of null
+        if (id === 'null') {
+          this.emptyBook = true;
+          return of({'title': '', 'author': '', 'genre': '', 'year': new Date().getFullYear(), 
+          'added': '', 'checkOutCount': 0, 'status': 'AVAILABLE', 
+          'dueDate': '', 'comment': '', 'id': ''} as Book);
+        }
+        return this.bookService.getBook(id);
+      }));
 
-    this.book$.subscribe(book => {
-      this.bookForm.patchValue(book);
-      this.showCheckout = book.status === 'AVAILABLE';
-    });
+      if (!this.emptyBook) {
+        this.book$.subscribe(book => {
+          this.bookForm.patchValue(book);
+          this.showCheckout = book.status === 'AVAILABLE' && this.bookForm.valid;
+
+          if (this.localStorageService.hasKey(this.bookForm.get('title')?.value)) { //Check if the book is a favorite
+            this.isFavorite = true;
+          }
+        });
+      }
   }
 
   saveBook(): void {
     if (this.bookForm.valid) { //Dont know if this is necessary but better safe than sorry
       const updatedBook = this.bookForm.value as Book;
-
+      console.log(updatedBook)
       this.bookService.saveBook(updatedBook)
         .subscribe(book => {
           console.log('Book updated:', book);
@@ -81,7 +97,7 @@ export class BookDetailComponent implements OnInit {
     const dialogRef = this.dialog.open(DialogComponent, {
       data: {
         title: 'Delete book',
-        message: 'Are you sure you want to delete \'' + this.bookForm.get('title')?.value + '\'?',
+        message: 'Are you sure you want to delete this book?',
         confirmButtonText: 'Delete',
         cancelButtonText: 'Cancel'
       }
@@ -129,7 +145,7 @@ export class BookDetailComponent implements OnInit {
         if (result) { // If the user clicked the "Checkout" button
           const checkout = this.checkoutForm.value as Checkout;
           const book = this.bookForm.value as Book;
-
+          console.log(checkout)
           book.status = 'BORROWED';
           book.dueDate = checkout.dueDate;
           book.checkOutCount++;
@@ -142,7 +158,6 @@ export class BookDetailComponent implements OnInit {
           checkout.checkedOutDate = new Date().toISOString().slice(0, 10);
 
           this.checkoutService.checkout(checkout).subscribe((checkout) => {
-            console.log('Checkout created:', checkout);
             this.location.back();
           });
         }
@@ -162,9 +177,10 @@ export class BookDetailComponent implements OnInit {
     const updatedBook = this.bookForm.value as Book;
     if (localStorage.getItem(updatedBook.title) === null) {
       this.localStorageService.saveData(updatedBook.title, JSON.stringify(updatedBook));
-      console.log(updatedBook);
+      this.isFavorite = true;
     } else {
       this.localStorageService.removeData(updatedBook.title);
+      this.isFavorite = false;
     }
   }
 }

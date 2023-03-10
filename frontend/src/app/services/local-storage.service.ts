@@ -25,7 +25,6 @@ export class LocalStorageService {
     return items;
   }
   
-
   public getData(key: string) {
     return localStorage.getItem(key)
   }
@@ -35,5 +34,10 @@ export class LocalStorageService {
 
   public clearData() {
     localStorage.clear();
+  }
+
+  public hasKey(key: string): boolean {
+    console.log(localStorage.getItem(key));
+    return this.getData(key) !== null;
   }
 }

@@ -1,6 +1,5 @@
-<div class="container mat-elevation-z4">
+<div class="container mat-elevation-z4" *ngIf="books.length > 0; else elseBlock">
     <mat-card>
-      <mat-card-title>Favorite books</mat-card-title>
       <mat-card-content>
         <table mat-table [dataSource]="books" matSort>
           <ng-container matColumnDef="title">
@@ -22,7 +21,9 @@
           <tr mat-header-row *matHeaderRowDef="tableColumns; sticky: true"></tr>
           <tr mat-row *matRowDef="let row; columns: tableColumns" [routerLink]="['/books', row.id]"></tr>
         </table>
+        <button mat-raised-button color="warn" (click)="clearFavorites()">Clear favorites</button>
       </mat-card-content>
     </mat-card>
-    <button mat-raised-button color="warn" (click)="clearFavorites()">Clear favorites</button>
   </div>
+
+  <ng-template #elseBlock><p class="no-books">Your favorite books will show up here</p></ng-template>

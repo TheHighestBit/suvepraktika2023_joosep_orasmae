@@ -1000,7 +1000,6 @@ INSERT INTO book (id, title, author, genre, year, added, check_out_count, status
 ('8c7d0335-312d-4fac-a6f0-f8f9bef7a08f', 'Now Sleeps the Crimson Petal', 'Zane Aufderhar', 'Tall tale', '1953', '2010-5-2', '19', 'AVAILABLE', null),
 ('ab1a8f87-272d-4ba0-93df-dbb8952909df', 'The Heart Is Deceitful Above All Things', 'Tiara Dickinson', 'Speech', '1949', '2002-9-8', '6', 'BORROWED', '2023-3-3');
 
-
 INSERT INTO checkout (id, borrower_first_name, borrower_last_name, book_id, checked_out_date, due_date) VALUES
 ('f1ff2cb7-55e7-4190-a001-650d60c1a9e9', 'John', 'Gusikowski', 'fc80bbda-18f8-4695-af8f-6044dbbe9ce2', '2020-9-11', '2023-3-11'),
 ('3dce9ef5-b89d-4893-95a1-f91ac08daea9', 'Melita', 'Hintz', '5fce2622-6217-4eed-8d1c-d255bae1c73e', '2023-3-3', '2023-4-3'),

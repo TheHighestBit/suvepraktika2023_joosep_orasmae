@@ -1,29 +1,31 @@
-<mat-card *ngIf="checkout$ | async as checkout">
-    <mat-card-title>{{ checkout.borrowedBook.title }}</mat-card-title>
-    <mat-card-content>
-      <form [formGroup]="checkoutForm">
-        <mat-form-field>
-          <label for="borrowerFirstName">First name of borrower</label>
-          <input matInput formControlName="borrowerFirstName" required>
-        </mat-form-field>
-        <mat-form-field>
-            <label for="borrowerLastName">Last name of borrower</label>
-            <input matInput formControlName="borrowerLastName" required>
-        </mat-form-field>
-        <mat-form-field>
-          <label for="checkedOutDate">Checked out date</label>
-          <input matInput formControlName="checkedOutDate" required>
-        </mat-form-field>
-        <mat-form-field>
-            <label for="dueDate">Due date</label>
-            <input matInput formControlName="dueDate" required>
-        </mat-form-field>
-        <input type="hidden" formControlName="id">
-        <input type="hidden" formControlName="returnedDate">
-        <div>
-          <button mat-raised-button color="primary" (click)="checkoutClick()" [disabled]="checkoutForm.invalid">Return book</button>
-          <button mat-raised-button (click)="deleteCheckoutClick()">Delete</button>
-        </div>
-      </form>
-    </mat-card-content>
-  </mat-card>
+<div class="outer-container">
+  <mat-card *ngIf="checkout$ | async as checkout">
+      <mat-card-title>{{ checkout.borrowedBook.title }}</mat-card-title>
+      <mat-card-content>
+        <form [formGroup]="checkoutForm">
+          <mat-form-field>
+            <label for="borrowerFirstName">First name of borrower</label>
+            <input matInput formControlName="borrowerFirstName" required>
+          </mat-form-field>
+          <mat-form-field>
+              <label for="borrowerLastName">Last name of borrower</label>
+              <input matInput formControlName="borrowerLastName" required>
+          </mat-form-field>
+          <mat-form-field>
+            <label for="checkedOutDate">Checked out date</label>
+            <input matInput formControlName="checkedOutDate" required>
+          </mat-form-field>
+          <mat-form-field>
+              <label for="dueDate">Due date</label>
+              <input matInput formControlName="dueDate" placeholder="YYYY-MM-DD" required>
+          </mat-form-field>
+          <input type="hidden" formControlName="id">
+          <input type="hidden" formControlName="returnedDate">
+          <div>
+            <button mat-raised-button color="primary" (click)="checkoutClick()" [disabled]="checkoutForm.invalid || checkoutForm.get('returnedDate')?.value !== null">Return book</button>
+            <button mat-raised-button color="warn" (click)="deleteCheckoutClick()">Delete</button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+</div>
