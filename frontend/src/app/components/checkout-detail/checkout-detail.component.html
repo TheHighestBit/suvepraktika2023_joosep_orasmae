@@ -4,26 +4,26 @@
       <mat-card-content>
         <form [formGroup]="checkoutForm">
           <mat-form-field>
-            <label for="borrowerFirstName">First name of borrower</label>
+            <label for="borrowerFirstName">{{ 'BORROWER.FIRST' | translate }}</label>
             <input matInput formControlName="borrowerFirstName" required>
           </mat-form-field>
           <mat-form-field>
-              <label for="borrowerLastName">Last name of borrower</label>
+              <label for="borrowerLastName">{{ 'BORROWER.LAST' | translate }}</label>
               <input matInput formControlName="borrowerLastName" required>
           </mat-form-field>
           <mat-form-field>
-            <label for="checkedOutDate">Checked out date</label>
+            <label for="checkedOutDate">{{ 'CHECKOUT.CHECKED_OUT_DATE' | translate }}</label>
             <input matInput formControlName="checkedOutDate" required>
           </mat-form-field>
           <mat-form-field>
-              <label for="dueDate">Due date</label>
+              <label for="dueDate">{{ 'DUE_DATE' | translate }}</label>
               <input matInput formControlName="dueDate" placeholder="YYYY-MM-DD" required>
           </mat-form-field>
           <input type="hidden" formControlName="id">
           <input type="hidden" formControlName="returnedDate">
           <div>
-            <button mat-raised-button color="primary" (click)="checkoutClick()" [disabled]="checkoutForm.invalid || checkoutForm.get('returnedDate')?.value !== null">Return book</button>
-            <button mat-raised-button color="warn" (click)="deleteCheckoutClick()">Delete</button>
+            <button mat-raised-button color="primary" (click)="checkoutClick()" [disabled]="checkoutForm.invalid || checkoutForm.get('returnedDate')?.value !== null">{{ 'RETURN' | translate }}</button>
+            <button mat-raised-button color="warn" (click)="deleteCheckoutClick()">{{ 'DELETE' | translate }}</button>
           </div>
         </form>
       </mat-card-content>

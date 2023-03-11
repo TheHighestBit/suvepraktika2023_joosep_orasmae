@@ -8,6 +8,8 @@ import { FormGroup, FormControl, Validators, ValidatorFn, AbstractControl } from
 import { CheckoutService } from 'src/app/services/checkout.service';
 import { Checkout } from 'src/app/models/checkout';
 import { Location } from '@angular/common';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-checkout-detail',
@@ -23,8 +25,17 @@ export class CheckoutDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private checkoutService: CheckoutService,
     private bookService: BookService,
-    private location: Location
+    private location: Location,
+    private localStorageService: LocalStorageService,
+    private translate: TranslateService
   ) {
+    if (this.localStorageService.getData('language') === 'en') {
+      this.translate.setDefaultLang('en'); //Set the default language to English
+      this.translate.use('en');
+    } else {
+      this.translate.setDefaultLang('est'); //Set the default language to Estonian
+      this.translate.use('est');
+    }
   }
 
   ngOnInit(): void {

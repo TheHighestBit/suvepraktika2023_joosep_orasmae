@@ -11,6 +11,7 @@ import { CheckoutService } from 'src/app/services/checkout.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../dialog/dialog.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-book-detail',
@@ -32,8 +33,16 @@ export class BookDetailComponent implements OnInit {
     private location: Location,
     private checkoutService: CheckoutService,
     private localStorageService: LocalStorageService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private translate: TranslateService
   ) {
+    if (this.localStorageService.getData('language') === 'en') {
+      this.translate.setDefaultLang('en'); //Set the default language to English
+      this.translate.use('en');
+    } else {
+      this.translate.setDefaultLang('est'); //Set the default language to Estonian
+      this.translate.use('est');
+    }
   }
 
   ngOnInit(): void {

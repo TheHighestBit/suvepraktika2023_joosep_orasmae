@@ -1,8 +1,10 @@
 <!-- Navbar -->
-<mat-toolbar>
-  <a mat-button color="primary" routerLink="/">Library</a>
-  <a mat-button color="primary" routerLink="/checkouts">Checkouts</a>
-  <a mat-button color="primary" routerLink="/favorites">Favorites</a>
+<mat-toolbar >
+  <a mat-button color="primary" routerLink="/">{{ 'LIBRARY'  | translate}}</a>
+  <a mat-button color="primary" routerLink="/checkouts">{{ 'CHECKOUTS'  | translate}}</a>
+  <a mat-button color="primary" routerLink="/favorites">{{ 'FAVORITES_LINK'  | translate}}</a>
+  <span class="spacer"></span>
+  <button mat-button color="primary" (click)="changeLanguage()">{{ 'LANGUAGE'  | translate}}</button>
 </mat-toolbar>
 
 <!-- Body -->

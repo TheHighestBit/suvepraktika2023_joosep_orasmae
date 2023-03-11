@@ -3,23 +3,23 @@
       <mat-card-content>
         <table mat-table [dataSource]="checkoutsDataSource" matSort>
           <ng-container matColumnDef="borrowedBook.title">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Borrowed book</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'CHECKOUT.TITLE' | translate }}</th>
             <td mat-cell *matCellDef="let checkout">{{checkout.borrowedBook.title}}</td>
           </ng-container>
           <ng-container matColumnDef="borrowerLastName">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Borrower name</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'CHECKOUT.BORROWER' | translate }}</th>
             <td mat-cell *matCellDef="let checkout">{{checkout.borrowerLastName + ", " + checkout.borrowerFirstName}}</td>
           </ng-container>
           <ng-container matColumnDef="dueDate">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Due date</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'CHECKOUT.DUE_DATE' | translate }}</th>
             <td mat-cell *matCellDef="let checkout" [ngClass]="{ 'late': checkout.dueDate < currentDate}">{{checkout.dueDate}}</td>
           </ng-container>
           <ng-container matColumnDef="checkedOutDate">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Checked out date</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'CHECKOUT.CHECKED_OUT_DATE' | translate }}</th>
             <td mat-cell *matCellDef="let checkout">{{checkout.checkedOutDate}}</td>
           </ng-container>
           <ng-container matColumnDef="returnedDate">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Returned date</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'CHECKOUT.RETURNED_DATE' | translate }}</th>
             <td mat-cell *matCellDef="let checkout">{{checkout.returnedDate != null ? checkout.returnedDate : "-"}}</td>
           </ng-container>
           <tr mat-header-row *matHeaderRowDef="tableColumns"></tr>

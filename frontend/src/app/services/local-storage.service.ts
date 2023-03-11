@@ -15,7 +15,7 @@ export class LocalStorageService {
     const items: string[] = [];
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
-      if (key) {
+      if (key && key !== 'language') { //The currently selected language is also stored here
         const value = localStorage.getItem(key);
         if (value) {
           items.push(value);
