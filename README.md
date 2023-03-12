@@ -1,3 +1,8 @@
+All of the development tasks are done + I also added support for both english and estonian. The only thing that I had an hard time with was the server sided pagination. The way I understand it it's supposed to return pagefuls of books given the current page index and the size of the page but for whatever reason it always
+returned the first 5 books no matter the index or length, so I just ended up fetching all of the books from the server at once and then paging them locally.
+
+Learning TypeScript was also an interesting experience but went way smoother than I had first anticipated. I think I prefer it to JavaScript now.
+
 # Test assignment
 
 Welcome to CGI test assignment!
