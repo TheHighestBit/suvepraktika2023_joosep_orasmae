@@ -71,7 +71,7 @@ export class BookDetailComponent implements OnInit {
         if (id === 'null') {
           this.emptyBook = true;
           return of({'title': '', 'author': '', 'genre': '', 'year': new Date().getFullYear(), 
-          'added': '', 'checkOutCount': 0, 'status': 'AVAILABLE', 
+          'added': new Date().toISOString().slice(0, 10), 'checkOutCount': 0, 'status': 'AVAILABLE', 
           'dueDate': '', 'comment': '', 'id': ''} as Book);
         }
         return this.bookService.getBook(id);
@@ -102,14 +102,23 @@ export class BookDetailComponent implements OnInit {
   }
 
   deleteBook(): void {
+    const data_en = {
+      title: 'Delete book',
+      message: 'Are you sure you want to delete this book?',
+      confirmButtonText: 'Delete',
+      cancelButtonText: 'Cancel'
+    }
+
+    const data_est = {
+      title: 'Kustuta raamat',
+      message: 'Oled kindel, et soovid raamatu kustutada?',
+      confirmButtonText: 'Kustuta',
+      cancelButtonText: 'Tühista'
+    }
+
     //The dialog related stuff from https://material.angular.io/components/dialog/overview
     const dialogRef = this.dialog.open(DialogComponent, {
-      data: {
-        title: 'Delete book',
-        message: 'Are you sure you want to delete this book?',
-        confirmButtonText: 'Delete',
-        cancelButtonText: 'Cancel'
-      }
+      data: this.localStorageService.getData('language') === 'en' ? data_en : data_est
     });
   
     dialogRef.afterClosed().subscribe(result => {
@@ -140,14 +149,23 @@ export class BookDetailComponent implements OnInit {
   }
 
   checkoutClick(): void{
+    const data_en = {
+      title: 'Checkout book',
+      message: 'Are you sure you want to checkout \'' + this.bookForm.get('title')?.value + '\'?',
+      confirmButtonText: 'Checkout',
+      cancelButtonText: 'Cancel'
+    }
+
+    const data_est = {
+      title: 'Laenuta raamat',
+      message: 'Oled kindel, et soovid raamatu \'' + this.bookForm.get('title')?.value + '\' laenutada?',
+      confirmButtonText: 'Laenuta',
+      cancelButtonText: 'Tühista'
+    }
+
     if (this.checkoutForm.valid && this.bookForm.valid) {
       const dialogRef = this.dialog.open(DialogComponent, {
-        data: {
-          title: 'Checkout book',
-          message: 'Are you sure you want to checkout \'' + this.bookForm.get('title')?.value + '\'?',
-          confirmButtonText: 'Checkout',
-          cancelButtonText: 'Cancel'
-        }
+        data: this.localStorageService.getData('language') === 'en' ? data_en : data_est
       });
     
       dialogRef.afterClosed().subscribe(result => {
